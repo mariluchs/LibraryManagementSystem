@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+<ui:composition template="/resources/templates/layout.xhtml">
+    <ui:define name="content">
+        <h2>Medien verwalten</h2>
+
+        <h:form>
+            <h3>Neues Medium anlegen</h3>
+
+            <h:panelGrid columns="2" styleClass="form-grid">
+                <h:outputLabel value="Typ" for="type"/>
+                <h:selectOneMenu id="type" value="#{mediaBean.form.type}">
+                    <f:selectItems value="#{mediaBean.types}"/>
+                </h:selectOneMenu>
+
+                <h:outputLabel value="Titel" for="title"/>
+                <h:inputText id="title" value="#{mediaBean.form.title}" required="true"/>
+
+                <h:outputLabel value="Creator" for="creator"/>
+                <h:inputText id="creator" value="#{mediaBean.form.creator}"/>
+
+                <h:outputLabel value="Identifier" for="ident"/>
+                <h:inputText id="ident" value="#{mediaBean.form.identifier}"/>
+            </h:panelGrid>
+
+            <h:commandButton value="Speichern" action="#{mediaBean.create}" styleClass="btn"/>
+        </h:form>
+
+        <h3>Alle Medien</h3>
+        <h:dataTable value="#{mediaBean.media}" var="m" styleClass="table">
+            <h:column><f:facet name="header">ID</f:facet>#{m.id}</h:column>
+            <h:column><f:facet name="header">Typ</f:facet>#{m.type}</h:column>
+            <h:column><f:facet name="header">Titel</f:facet>#{m.title}</h:column>
+            <h:column><f:facet name="header">Creator</f:facet>#{m.creator}</h:column>
+            <h:column><f:facet name="header">Identifier</f:facet>#{m.identifier}</h:column>
+        </h:dataTable>
+    </ui:define>
+</ui:composition>
+</html>

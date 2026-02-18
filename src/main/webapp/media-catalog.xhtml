@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/resources/templates/layout.xhtml">
+    <ui:define name="content">
+        <h2>Medienkatalog</h2>
+
+        <h:messages globalOnly="true" styleClass="messages"/>
+
+        <h:dataTable value="#{mediaCatalogBean.media}" var="m" styleClass="table">
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                #{m.id}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Typ</f:facet>
+                #{m.type}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Titel</f:facet>
+                #{m.title}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Creator</f:facet>
+                #{m.creator}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Identifier</f:facet>
+                #{m.identifier}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Status</f:facet>
+                <h:outputText value="#{m.loaned ? 'Ausgeliehen' : 'Verfügbar'}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Ausgeliehen bis</f:facet>
+                <h:outputText value="#{m.loaned ? m.dueDate : '-'}"/>
+            </h:column>
+        </h:dataTable>
+    </ui:define>
+</ui:composition>
+</html>

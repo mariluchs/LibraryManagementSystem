@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+
+<h:head>
+  <title>Library Management System</title>
+  <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+
+<h:body>
+  <div class="container">
+    <header class="header">
+      <h1>Library Management System</h1>
+
+      <nav class="nav">
+        <h:link outcome="/index.xhtml" value="Start"/>
+
+        <!-- Medienkatalog: alle eingeloggten -->
+        <h:link outcome="/media-catalog.xhtml" value="Medien"
+                rendered="#{authBean.loggedIn}"/>
+
+        <!-- Nur Librarian/Admin -->
+        <h:link outcome="/media.xhtml" value="Medien verwalten"
+                rendered="#{authBean.librarianOrAdmin}"/>
+
+        <h:link outcome="/loans.xhtml" value="Ausleihe"
+                rendered="#{authBean.librarianOrAdmin}"/>
+
+        <!-- Nur Customer -->
+        <h:link outcome="/my-loans.xhtml" value="Mein Status"
+                rendered="#{authBean.customer}"/>
+
+        <!-- Login / Logout -->
+        <h:link outcome="/login.xhtml" value="Login"
+                rendered="#{not authBean.loggedIn}"/>
+
+        <h:form rendered="#{authBean.loggedIn}" style="display:inline;">
+          <h:commandLink value="Logout" action="#{authBean.logout}"/>
+        </h:form>
+      </nav>
+    </header>
+
+    <main class="content">
+      <ui:insert name="content"/>
+    </main>
+  </div>
+</h:body>
+</html>

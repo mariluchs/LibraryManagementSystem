@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/resources/templates/layout.xhtml">
+    <ui:define name="content">
+        <h2>Mein Ausleihstatus</h2>
+
+        <!-- Dropdown NUR für Librarian/Admin -->
+        <h:panelGroup rendered="#{myLoansBean.librarianOrAdmin}">
+            <h:form>
+                <h:panelGrid columns="2" styleClass="form-grid">
+                    <h:outputLabel value="Kund:in auswählen:" for="me"/>
+                    <h:selectOneMenu id="me" value="#{myLoansBean.selectedUserId}">
+                        <f:selectItem itemLabel="Bitte wählen" itemValue="#{null}"/>
+                        <f:selectItems value="#{myLoansBean.selectableUsers}" var="u"
+                                       itemLabel="#{u.email} (#{u.username})" itemValue="#{u.id}"/>
+                        <f:ajax render="loansTable"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+            </h:form>
+        </h:panelGroup>
+
+        <!-- Tabelle: für Customer automatisch, für Librarian/Admin nach Auswahl -->
+        <h:form id="loansTable">
+            <h3>Aktive Ausleihen</h3>
+
+            <h:dataTable value="#{myLoansBean.myLoans}" var="l" styleClass="table">
+                <h:column><f:facet name="header">Medium</f:facet>#{l.mediumTitle}</h:column>
+                <h:column><f:facet name="header">Fällig</f:facet>#{l.dueDate}</h:column>
+                <h:column>
+                    <f:facet name="header">Verlängern</f:facet>
+                    <h:commandButton value="Verlängern (+7 Tage)"
+                                     action="#{myLoansBean.extend(l.id)}"
+                                     disabled="#{not l.extendable}"
+                                     styleClass="btn"/>
+                </h:column>
+            </h:dataTable>
+
+            <h:panelGroup rendered="#{empty myLoansBean.myLoans}">
+                <p>Keine aktiven Ausleihen gefunden.</p>
+            </h:panelGroup>
+        </h:form>
+
+    </ui:define>
+</ui:composition>
+</html>

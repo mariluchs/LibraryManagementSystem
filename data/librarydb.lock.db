@@ -1,0 +1,6 @@
+#FileLock
+#Wed Feb 18 19:30:46 CET 2026
+hostName=ExtrasPC
+id=19c7204c56ccba53bbaceeb6b7dea0b741456b22efc
+method=file
+server=10.5.0.2\:53807

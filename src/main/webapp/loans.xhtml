@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+<ui:composition template="/resources/templates/layout.xhtml">
+    <ui:define name="content">
+        <h2>Ausleihe &amp; Rückgabe</h2>
+
+        <h:messages globalOnly="true" styleClass="messages"/>
+
+        <h:form>
+            <h3>Medium ausleihen</h3>
+
+            <h:panelGrid columns="2" styleClass="form-grid">
+                <h:outputLabel value="Kund:in" for="user"/>
+                <h:selectOneMenu id="user" value="#{loansBean.checkout.userId}">
+                    <f:selectItem itemLabel="Bitte wählen" itemValue="#{null}"/>
+                    <f:selectItems value="#{loansBean.users}" var="u"
+                                   itemLabel="#{u.email}" itemValue="#{u.id}"/>
+                </h:selectOneMenu>
+
+                <h:outputLabel value="Medium" for="medium"/>
+                <h:selectOneMenu id="medium" value="#{loansBean.checkout.mediumId}">
+                    <f:selectItem itemLabel="Bitte wählen" itemValue="#{null}"/>
+                    <f:selectItems value="#{loansBean.media}" var="m"
+                                   itemLabel="#{m.title} (#{m.type})" itemValue="#{m.id}"/>
+                </h:selectOneMenu>
+            </h:panelGrid>
+
+            <h:commandButton value="Ausleihen" action="#{loansBean.checkoutNow}" styleClass="btn"/>
+        </h:form>
+
+        <h3>Aktive Ausleihen</h3>
+        <h:form>
+            <h:dataTable value="#{loansBean.activeLoans}" var="l" styleClass="table">
+                <h:column><f:facet name="header">Loan ID</f:facet>#{l.id}</h:column>
+                <h:column><f:facet name="header">Kund:in</f:facet>#{l.userEmail}</h:column>
+                <h:column><f:facet name="header">Medium</f:facet>#{l.mediumTitle}</h:column>
+                <h:column><f:facet name="header">Ausgeliehen</f:facet>#{l.loanDate}</h:column>
+                <h:column><f:facet name="header">Fällig</f:facet>#{l.dueDate}</h:column>
+                <h:column>
+                    <f:facet name="header">Aktion</f:facet>
+                    <h:commandButton value="Rückgabe" action="#{loansBean.returnLoan(l.id)}" styleClass="btn"/>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

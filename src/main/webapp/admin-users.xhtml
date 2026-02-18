@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/resources/templates/layout.xhtml">
+
+    <ui:define name="content">
+
+        <h2>Userverwaltung</h2>
+
+        <h:form>
+
+            <h:dataTable value="#{adminUserBean.users}"
+                         var="u"
+                         styleClass="table">
+
+                <!-- ID -->
+                <h:column>
+                    <f:facet name="header">ID</f:facet>
+                    #{u.id}
+                </h:column>
+
+                <!-- Username -->
+                <h:column>
+                    <f:facet name="header">Username</f:facet>
+                    #{u.username}
+                </h:column>
+
+                <!-- Email -->
+                <h:column>
+                    <f:facet name="header">Email</f:facet>
+                    #{u.email}
+                </h:column>
+
+                <!-- Rolle -->
+                <h:column>
+                    <f:facet name="header">Rolle</f:facet>
+                    #{u.role}
+                </h:column>
+
+                <!-- Delete -->
+                <h:column>
+                    <f:facet name="header">Aktion</f:facet>
+
+                    <h:commandButton value="Löschen"
+                                     action="#{adminUserBean.deleteUser(u.id)}"
+                                     styleClass="btn"
+                                     rendered="#{authBean.loggedInUser.id ne u.id}">
+                        <f:ajax render="@form"/>
+                    </h:commandButton>
+
+                </h:column>
+
+            </h:dataTable>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
+</html>

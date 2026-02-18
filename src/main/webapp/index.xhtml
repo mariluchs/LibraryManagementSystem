@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html">
+
+<ui:composition template="/resources/templates/layout.xhtml">
+
+    <ui:define name="content">
+        <h2>Library Management System</h2>
+        <p>Prototyp für Medienverwaltung, Ausleihe/Rückgabe und Ausleihstatus.</p>
+
+        <!-- Nicht eingeloggt: nur Login -->
+        <ui:fragment rendered="#{not authBean.loggedIn}">
+            <p>Bitte einloggen, um Funktionen zu nutzen.</p>
+            <ul>
+                <li><h:link outcome="login" value="Login"/></li>
+            </ul>
+        </ui:fragment>
+
+        <!-- Eingeloggt -->
+        <ui:fragment rendered="#{authBean.loggedIn}">
+            <ul>
+                <!-- Alle eingeloggten -->
+                <li><h:link outcome="media-catalog" value="Medienkatalog"/></li>
+
+                <!-- Librarian/Admin -->
+                <ui:fragment rendered="#{authBean.librarianOrAdmin}">
+                    <li><h:link outcome="media" value="Medien verwalten"/></li>
+                    <li><h:link outcome="loans" value="Ausleihe &amp; Rückgabe"/></li>
+                </ui:fragment>
+
+                <!-- Customer -->
+                <ui:fragment rendered="#{authBean.customer}">
+                    <li><h:link outcome="my-loans" value="Mein Ausleihstatus"/></li>
+                </ui:fragment>
+            </ul>
+        </ui:fragment>
+
+    </ui:define>
+
+</ui:composition>
+</html>
