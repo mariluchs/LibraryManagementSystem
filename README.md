@@ -1,4 +1,4 @@
-# Event Manager Projekt zur LV Programmierung industrieller Informationssysteme mit Java EE 
+# Bibliotheksverwaltungssystem Projekt zur LV Programmierung industrieller Informationssysteme mit Java EE 
 
 ## Branches
 
